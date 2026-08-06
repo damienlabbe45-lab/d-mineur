@@ -62,6 +62,30 @@ public class Minesweeper {
         return (rows + cols)/2 + dif;
     }
 
+    public static int revealCase(char[][] gridUser, char[][] gridSol, int row, int col) {
+    // Si la case cible est un vide
+    if (gridSol[row][col] == '_') {
+        gridUser[row][col] = '_';
+        int count = 1; // La case actuelle est découverte
+        // Parcourt les 8 voisins autour de (row, col)
+        for (int dr = -1; dr <= 1; dr++) {
+            for (int dc = -1; dc <= 1; dc++) {
+                int r = row + dr;
+                int c = col + dc;
+                // Vérification des limites de la grille
+                if (r >= 0 && r < gridUser.length && c >= 0 && c < gridUser[0].length && gridUser[r][c] == ' ') {
+                    count += revealCase(gridUser, gridSol, r, c);
+                }
+            }
+        }
+        return count;
+    } else {
+        // Case chiffre (frontière) : on la révèle simplement
+        gridUser[row][col] = gridSol[row][col];
+        return 1;
+    }
+}
+
     public static void print(char[][] grid){
         int rows = grid.length;
         int cols = grid[0].length;
@@ -69,7 +93,7 @@ public class Minesweeper {
         // Entête des colonnes (ex: 1 2 3 4...)
         System.out.print("  ");
         for (int c = 1; c <= cols; c++) {
-            System.out.printf("%3d ", c);
+            System.out.printf("%2d ", c);
         }
         System.out.println();
 
@@ -93,7 +117,7 @@ public class Minesweeper {
         int placed = 0;
 
         while (placed < totalMines) {
-            //fire des nombres aléatoires localement et donne un int
+            //faire des nombres aléatoires localement et donne un int
             int r = ThreadLocalRandom.current().nextInt(0, rows);
             int c = ThreadLocalRandom.current().nextInt(0, cols);
 
@@ -125,8 +149,7 @@ public class Minesweeper {
             value = gridSols [r][c] ;
 
             if (gridUser[r][c] != value){
-                gridUser[r][c]= value;
-                number++;
+                number+= revealCase(gridUser,gridSols,r,c);
             }
             
         }
