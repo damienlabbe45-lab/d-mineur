@@ -63,18 +63,22 @@ public class Minesweeper {
 
     public static char[][] generateChar( int rows , int cols, String difficult ){
         char [] [] grid = grid(rows, cols);
-        
         int totalMines = formula(rows,cols, difficult);
         int placed = 0;
+
         while (placed < totalMines) {
+            //fire des nombres aléatoires localement et donne un int
             int r = ThreadLocalRandom.current().nextInt(0, rows);
             int c = ThreadLocalRandom.current().nextInt(0, cols);
+
             if (grid[r][c] != 'O') {
                 grid[r][c] = 'O';
                 bombs(grid, r, c);
                 placed++;
             }
+
         }
+
         System.out.println(Arrays.deepToString(grid));
         return grid;
     }
@@ -84,7 +88,9 @@ public class Minesweeper {
         char [] [] gridUser = grid(rows, cols);
         int number = 0;
         char value = ' ';
+
         while(value != 'O' && number != (rows * cols - formula(rows, cols, difficult))){
+            //permet d'afficher correctement la grille de l'utilisateur
             System.out.println(Arrays.deepToString(gridUser));
             int r = inputChoice(input, 
                 "veillez indiquer le numéro de ligne entre 1 et " + rows, 
@@ -93,9 +99,14 @@ public class Minesweeper {
                 "veillez indiquer le numéro de colonne entre 1 et " + cols, 
                 cols,1);
             value = gridSols [r][c] ;
-            gridUser[r][c]= value;
-            number++;
+
+            if (gridUser[r][c] != value){
+                gridUser[r][c]= value;
+                number++;
+            }
+            
         }
+
         if(value != 'O')System.out.println("Vous avez gagné  ^^ !!!!!");
         else System.out.println("Vous avez marché sur une mine et vous avez explosé .....");
     }
