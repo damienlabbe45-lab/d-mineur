@@ -5,49 +5,53 @@ public class Minesweeper {
 
     public static char[][] givevalue(char [] [] grid, int row, int col){
         if(grid [row][col] == ' ')grid [row] [col] = '1';
-        else if(grid [row][col] != 'O')grid [row] [col] = (char) ( (int) grid [row] [col] + 1);
+        else if(grid [row][col] != 'O')grid [row] [col] = (char) (grid [row] [col] + 1);
         return grid;
     }
 
     public static char[][] bombs(char [] [] grid, int row, int col){
         if(row > 0){
-           grid = givevalue(grid, row - 1, col);
-            if(col > 0 )grid = givevalue(grid, row -  1 , col - 1);
-            if(col < grid[0].length)grid = givevalue(grid, row -  1 , col - 1);
+           givevalue(grid, row - 1, col);
+            if(col > 0 )givevalue(grid, row -  1 , col - 1);
+            if(col + 1< grid[0].length)givevalue(grid, row -  1 , col + 1);
         }
-        if(row < grid.length){
-            grid = givevalue(grid, row + 1, col);
-            if(col < grid[0].length)grid = givevalue(grid, row + 1, col + 1);
-            if(col > 0) grid = givevalue(grid, row + 1, col - 1);
+        if(row + 1 < grid.length){
+            givevalue(grid, row + 1, col);
+            if(col + 1< grid[0].length)givevalue(grid, row + 1, col + 1);
+            if(col > 0) givevalue(grid, row + 1, col - 1);
         }
         if(col > 0){
-            grid = givevalue(grid, row, col - 1);
+            givevalue(grid, row, col - 1);
         }
-        if(col < grid[0].length){
-            grid = givevalue(grid, row, col + 1);
+        if(col + 1< grid[0].length){
+            givevalue(grid, row, col + 1);
+        }
+        return grid;
+    }
+
+    public static char[][] grid(int rows , int cols){
+        char [] [] grid = new char[rows] [cols];
+        for(char[] row: grid){
+            Arrays.fill(row, ' ');
         }
         return grid;
     }
 
     public static char[][] generateChar( int rows , int cols, String difficult ){
-        char [] [] grid = new char[rows] [cols];
-        for(char[] row: grid){
-            Arrays.fill(row, ' ');
-        }
+        char [] [] grid = grid(rows, cols);
         int dif =  difficult.equalsIgnoreCase("facile") ? 0 : 7;
         int totalMines = (rows + cols)/2 + dif;
         int placed = 0;
-
         while (placed < totalMines) {
             int r = ThreadLocalRandom.current().nextInt(0, rows);
             int c = ThreadLocalRandom.current().nextInt(0, cols);
             if (grid[r][c] != 'O') {
                 grid[r][c] = 'O';
-                grid = bombs(grid, r, c);
+                bombs(grid, r, c);
                 placed++;
             }
         }
-
+        System.out.println(Arrays.deepToString(grid));
         return grid;
     }
     public static void main(String[] args) {
