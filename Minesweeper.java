@@ -14,6 +14,13 @@ public class Minesweeper {
         return input.nextLine();
     }
 
+    public static int InputChoice(Scanner input, String text) {
+        System.out.println(text);
+		int choiceuser = inputInt(input);
+		while(choiceuser < 4 || choiceuser > 11) choiceuser = inputInt(input);
+		return choiceuser -1;
+	}
+
     public static void game( int rows , int cols, String difficult ){
         char [] [] gridSols = generateChar(rows,cols,difficult);
         char [] [] gridUser = grid(rows, cols);
