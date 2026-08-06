@@ -84,7 +84,7 @@ public class Minesweeper {
         char [] [] gridUser = grid(rows, cols);
         int number = 0;
         char value = ' ';
-        while(value != 'O' && number == (rows * cols - formula(rows, cols, difficult))){
+        while(value != 'O' && number != (rows * cols - formula(rows, cols, difficult))){
             System.out.println(Arrays.deepToString(gridUser));
             int r = inputChoice(input, 
                 "veillez indiquer le numéro de ligne entre 1 et " + rows, 
@@ -101,8 +101,8 @@ public class Minesweeper {
     }
 
     public static void weeper(Scanner input){
-       int rows = inputChoice(input, "Combien de lignes vous voulez entre 4 et 20", 20,4);
-       int cols = inputChoice(input, "Combien de colonnes vous voulez entre 4 et 20", 20,4);
+       int rows = inputChoice(input, "Combien de lignes vous voulez entre 4 et 20", 20,4) + 1;
+       int cols = inputChoice(input, "Combien de colonnes vous voulez entre 4 et 20", 20,4) + 1;
        game(rows,cols , inputString(input), input);
     }
 
