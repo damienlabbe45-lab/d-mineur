@@ -14,10 +14,10 @@ public class Minesweeper {
         return input.nextLine();
     }
 
-    public static int inputChoice(Scanner input, String text, int number) {
+    public static int inputChoice(Scanner input, String text, int numbermax, int numbermin) {
         System.out.println(text);
 		int choiceuser = inputInt(input);
-		while(choiceuser < 4 || choiceuser > number) choiceuser = inputInt(input);
+		while(choiceuser < numbermin || choiceuser > numbermax) choiceuser = inputInt(input);
         input.nextLine();
 		return choiceuser -1;
 	}
@@ -56,10 +56,15 @@ public class Minesweeper {
         return grid;
     }
 
+    public static int formula(int rows,int cols, String difficult){
+        int dif =  difficult.equalsIgnoreCase("facile") ? 0 : 7;
+        return (rows + cols)/2 + dif;
+    }
+
     public static char[][] generateChar( int rows , int cols, String difficult ){
         char [] [] grid = grid(rows, cols);
-        int dif =  difficult.equalsIgnoreCase("facile") ? 0 : 7;
-        int totalMines = (rows + cols)/2 + dif;
+        
+        int totalMines = formula(rows,cols, difficult);
         int placed = 0;
         while (placed < totalMines) {
             int r = ThreadLocalRandom.current().nextInt(0, rows);
@@ -79,24 +84,25 @@ public class Minesweeper {
         char [] [] gridUser = grid(rows, cols);
         int number = 0;
         char value = ' ';
-        while(value != 'O' || number == (rows * cols - (rows + cols)/2)){
+        while(value != 'O' && number == (rows * cols - formula(rows, cols, difficult))){
             System.out.println(Arrays.deepToString(gridUser));
             int r = inputChoice(input, 
                 "veillez indiquer le numéro de ligne entre 1 et " + rows, 
-                rows);
+                rows,1);
             int c = inputChoice(input, 
                 "veillez indiquer le numéro de colonne entre 1 et " + cols, 
-                cols);
+                cols,1);
             value = gridSols [r][c] ;
             gridUser[r][c]= value;
+            number++;
         }
         if(value != 'O')System.out.println("Vous avez gagné  ^^ !!!!!");
         else System.out.println("Vous avez marché sur une mine et vous avez explosé .....");
     }
 
     public static void weeper(Scanner input){
-       int rows = inputChoice(input, "Combien de lignes vous voulez entre 4 et 20", 20);
-       int cols = inputChoice(input, "Combien de colonnes vous voulez entre 4 et 20", 20);
+       int rows = inputChoice(input, "Combien de lignes vous voulez entre 4 et 20", 20,4);
+       int cols = inputChoice(input, "Combien de colonnes vous voulez entre 4 et 20", 20,4);
        game(rows,cols , inputString(input), input);
     }
 
