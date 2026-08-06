@@ -24,8 +24,8 @@ public class Minesweeper {
 	}
 
     public static char[][] countMines(char [] [] grid, int row, int col){
-        if(grid [row][col] == ' ')grid [row] [col] = '1';
-        else if(grid [row][col] != 'O')grid [row] [col] = (char) (grid [row] [col] + 1);
+        if(grid [row][col] == '_')grid [row] [col] = '1';
+        else if(grid [row][col] != 'X')grid [row] [col] = (char) (grid [row] [col] + 1);
         return grid;
     }
 
@@ -63,11 +63,32 @@ public class Minesweeper {
     }
 
     public static void print(char[][] grid){
-        for(char[] row: grid)System.out.println(row);
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        // Entête des colonnes (ex: 1 2 3 4...)
+        System.out.print(" ");
+        for (int c = 1; c <= cols; c++) {
+            System.out.printf("%2d ", c);
+        }
+        System.out.println();
+
+        // Entête des lignes + contenu
+        for (int r = 0; r < rows; r++) {
+            System.out.printf("%2d ", r + 1);
+            for (int c = 0; c < cols; c++) {
+                System.out.printf(" %c ", grid[r][c]);
+            }
+            System.out.println();
+        }
+    
     }
 
     public static char[][] generateSolution( int rows , int cols, String difficult ){
         char [] [] grid = createGrid(rows, cols);
+        for(char[] row: grid){
+            Arrays.fill(row, '_');
+        }
         int totalMines = formulaMines(rows,cols, difficult);
         int placed = 0;
 
@@ -76,8 +97,8 @@ public class Minesweeper {
             int r = ThreadLocalRandom.current().nextInt(0, rows);
             int c = ThreadLocalRandom.current().nextInt(0, cols);
 
-            if (grid[r][c] != 'O') {
-                grid[r][c] = 'O';
+            if (grid[r][c] != 'X') {
+                grid[r][c] = 'X';
                 totalMines(grid, r, c);
                 placed++;
             }
@@ -92,7 +113,7 @@ public class Minesweeper {
         int number = 0;
         char value = ' ';
 
-        while(value != 'O' && number != (rows * cols - formulaMines(rows, cols, difficult))){
+        while(value != 'X' && number != (rows * cols - formulaMines(rows, cols, difficult))){
             //permet d'afficher correctement la grille de l'utilisateur
             print(gridUser);
             int r = inputChoice(input, 
@@ -109,7 +130,7 @@ public class Minesweeper {
             }
             
         }
-
+        print(gridSols);
         if(value != 'O')System.out.println("Vous avez gagné  ^^ !!!!!");
         else System.out.println("Vous avez marché sur une mine et vous avez explosé .....");
     }
