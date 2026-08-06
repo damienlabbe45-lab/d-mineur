@@ -14,10 +14,11 @@ public class Minesweeper {
         return input.nextLine();
     }
 
-    public static int inputChoice(Scanner input, String text) {
+    public static int inputChoice(Scanner input, String text, int number) {
         System.out.println(text);
 		int choiceuser = inputInt(input);
-		while(choiceuser < 4 || choiceuser > 11) choiceuser = inputInt(input);
+		while(choiceuser < 4 || choiceuser > number) choiceuser = inputInt(input);
+        input.nextLine();
 		return choiceuser -1;
 	}
 
@@ -73,13 +74,36 @@ public class Minesweeper {
         return grid;
     }
     
-    public static void game( int rows , int cols, String difficult ){
+    public static void game( int rows , int cols, String difficult, Scanner input ){
         char [] [] gridSols = generateChar(rows,cols,difficult);
         char [] [] gridUser = grid(rows, cols);
-        System.out.println(Arrays.deepToString(gridUser));
-        
+        int number = 0;
+        char value = ' ';
+        while(value != 'O' || number == (rows * cols - (rows + cols)/2)){
+            System.out.println(Arrays.deepToString(gridUser));
+            int r = inputChoice(input, 
+                "veillez indiquer le numéro de ligne entre 1 et " + rows, 
+                rows);
+            int c = inputChoice(input, 
+                "veillez indiquer le numéro de colonne entre 1 et " + cols, 
+                cols);
+            value = gridSols [r][c] ;
+            gridUser[r][c]= value;
+        }
+        if(value != 'O')System.out.println("Vous avez gagné  ^^ !!!!!");
+        else System.out.println("Vous avez marché sur une mine et vous avez explosé .....");
     }
+
+    public static void weeper(Scanner input){
+       int rows = inputChoice(input, "Combien de lignes vous voulez entre 4 et 20", 20);
+       int cols = inputChoice(input, "Combien de colonnes vous voulez entre 4 et 20", 20);
+       game(rows,cols , inputString(input), input);
+    }
+
     public static void main(String[] args) {
         if( args.length > 0) throw new IllegalArgumentException(" pas d'arguments");
+        Scanner input = new Scanner(System.in);
+        weeper(input);
+        input.close();
     }
 }
