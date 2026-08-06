@@ -1,7 +1,17 @@
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Scanner;
 
 public class Minesweeper {
+
+    
+
+    public static void game( int rows , int cols, String difficult ){
+        char [] [] gridSols = generateChar(rows,cols,difficult);
+        char [] [] gridUser = grid(rows, cols);
+        System.out.println(Arrays.deepToString(gridUser));
+        
+    }
 
     public static char[][] givevalue(char [] [] grid, int row, int col){
         if(grid [row][col] == ' ')grid [row] [col] = '1';
