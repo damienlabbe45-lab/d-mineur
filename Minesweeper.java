@@ -67,9 +67,9 @@ public class Minesweeper {
         int cols = grid[0].length;
 
         // Entête des colonnes (ex: 1 2 3 4...)
-        System.out.print(" ");
+        System.out.print("  ");
         for (int c = 1; c <= cols; c++) {
-            System.out.printf("%2d ", c);
+            System.out.printf("%3d ", c);
         }
         System.out.println();
 
@@ -131,7 +131,7 @@ public class Minesweeper {
             
         }
         print(gridSols);
-        if(value != 'O')System.out.println("Vous avez gagné  ^^ !!!!!");
+        if(value != 'X')System.out.println("Vous avez gagné  ^^ !!!!!");
         else System.out.println("Vous avez marché sur une mine et vous avez explosé .....");
     }
 
