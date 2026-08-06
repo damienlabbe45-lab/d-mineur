@@ -5,13 +5,14 @@ import java.util.Scanner;
 public class Minesweeper {
 
     public static int inputInt(Scanner input){
-        while(!input.hasNextInt()){
-            input.next();
-        }
-        return input.nextInt();
+       while(!input.hasNextInt()) input.next();
+		return input.nextInt();
     }
 
-    
+    public static String inputString(Scanner input){
+        System.out.println("Veillez indiquer si vous voulez un mode facile ou pas");
+        return input.nextLine();
+    }
 
     public static void game( int rows , int cols, String difficult ){
         char [] [] gridSols = generateChar(rows,cols,difficult);
