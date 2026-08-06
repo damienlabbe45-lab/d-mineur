@@ -4,6 +4,13 @@ import java.util.Scanner;
 
 public class Minesweeper {
 
+    public static int inputInt(Scanner input){
+        while(!input.hasNextInt()){
+            input.next();
+        }
+        return input.nextInt();
+    }
+
     
 
     public static void game( int rows , int cols, String difficult ){
