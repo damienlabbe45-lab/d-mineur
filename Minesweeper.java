@@ -62,6 +62,10 @@ public class Minesweeper {
         return (rows + cols)/2 + dif;
     }
 
+    public static void print(char[][] grid){
+        for(char[] row: grid)System.out.println(row);
+    }
+
     public static char[][] generateSolution( int rows , int cols, String difficult ){
         char [] [] grid = createGrid(rows, cols);
         int totalMines = formulaMines(rows,cols, difficult);
@@ -79,8 +83,6 @@ public class Minesweeper {
             }
 
         }
-
-        System.out.println(Arrays.deepToString(grid));
         return grid;
     }
     
@@ -92,7 +94,7 @@ public class Minesweeper {
 
         while(value != 'O' && number != (rows * cols - formulaMines(rows, cols, difficult))){
             //permet d'afficher correctement la grille de l'utilisateur
-            System.out.println(Arrays.deepToString(gridUser));
+            print(gridUser);
             int r = inputChoice(input, 
                 "veillez indiquer le numéro de ligne entre 1 et " + rows, 
                 rows,1);
