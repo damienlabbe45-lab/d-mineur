@@ -159,8 +159,8 @@ public class Minesweeper {
     }
 
     public static void lauchGame(Scanner input){
-       int rows = inputChoice(input, "Combien de lignes vous voulez entre 4 et 20", 20,4) + 1;
-       int cols = inputChoice(input, "Combien de colonnes vous voulez entre 4 et 20", 20,4) + 1;
+       int rows = inputChoice(input, "Combien de lignes vous voulez entre 4 et 45", 45,4) + 1;
+       int cols = inputChoice(input, "Combien de colonnes vous voulez entre 4 et 45", 45,4) + 1;
        game(rows,cols , inputString(input), input);
     }
 
